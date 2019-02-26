@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const initDB = () => {
 	mongoose.connect(
-		'mongodb://rootadmin:mg2019@ds025762.mlab.com:25762/koapi',
+		process.env.MONGODB_URI,
 		{useNewUrlParser: true}
 	)
 

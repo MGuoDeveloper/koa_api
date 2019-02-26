@@ -1,19 +1,29 @@
-const Koa = require('koa')
-const mount = require('koa-mount')
-const graphqlHTTP = require('koa-graphql')
-const app = new Koa()
-const schema = require('./graphql/schema')
-const initDB = require('./db')
+const Koa = require('koa');
 
-initDB()
+const mount = require('koa-mount');
+const graphqlHTTP = require('koa-graphql');
+const cors = require('@koa/cors');
 
-app.listen(9000)
+require('dotenv').config()
+
+const schema = require('./graphql/schema');
+const initDB = require('./db');
+
+initDB();
+
+const app = new Koa();
+
+app.listen(process.env.PORT || 9000);
+
+app.use(cors());
 
 app.use(mount('/graphql', graphqlHTTP({
-	schema,
-	graphiql: true
+  schema: schema,
+  graphiql: true
 })))
 
 app.on('error', err => {
-	log.error('server error', err)
-})
+  log.error('server error', err)
+});
+
+
